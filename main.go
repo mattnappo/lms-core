@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/tebeka/selenium"
+	"github.com/tebeka/selenium/chrome"
 )
 
 // This example shows how to navigate to a http://play.golang.org page, input a
@@ -24,14 +25,18 @@ func Example() {
 	// running).
 	const (
 		// These paths will be different on your system.
-		seleniumPath    = "vendor/selenium-server-standalone-3.4.jar"
-		geckoDriverPath = "vendor/geckodriver-v0.18.0-darwin64"
-		port            = 8080
+		seleniumPath = "vendor/selenium-server.jar"
+
+		chromeDriverPath = "vendor/chromedriver"
+		chromeBinPath    = "vendor/chrome-linux/chrome"
+
+		headless = true
+		port     = 8080
 	)
 	opts := []selenium.ServiceOption{
-		selenium.StartFrameBuffer(),           // Start an X frame buffer for the browser to run in.
-		selenium.GeckoDriver(geckoDriverPath), // Specify the path to GeckoDriver in order to use Firefox.
-		selenium.Output(os.Stderr),            // Output debug information to STDERR.
+		selenium.StartFrameBuffer(),             // Start an X frame buffer for the browser to run in.
+		selenium.ChromeDriver(chromeDriverPath), // Specify the path to chromedriver in order to use Chrome.
+		selenium.Output(os.Stderr),              // Output debug information to STDERR.
 	}
 	selenium.SetDebug(true)
 	service, err := selenium.NewSeleniumService(seleniumPath, port, opts...)
@@ -41,7 +46,14 @@ func Example() {
 	defer service.Stop()
 
 	// Connect to the WebDriver instance running locally.
-	caps := selenium.Capabilities{"browserName": "firefox"}
+	caps := selenium.Capabilities{"browser": "chrome"}
+
+	var chromeCaps chrome.Capabilities
+	chromeCaps.Path = chromeBinPath
+	chromeCaps.Args = []string{"headless"}
+
+	caps.AddChrome(chromeCaps)
+
 	wd, err := selenium.NewRemote(caps, fmt.Sprintf("http://localhost:%d/wd/hub", port))
 	if err != nil {
 		panic(err)
@@ -68,7 +80,7 @@ func Example() {
 		package main
 		import "fmt"
 		func main() {
-			fmt.Println("Hello WebDriver!\n")
+			fmt.Println("Hello WebDriver thing!\n")
 		}
 	`)
 	if err != nil {
@@ -113,3 +125,4 @@ func Example() {
 func main() {
 	Example()
 }
+
