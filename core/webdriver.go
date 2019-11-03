@@ -20,8 +20,8 @@ type ChromeWebDriver struct {
 	Port    int  `json:"port"`    // The port that the instance will run on
 }
 
-// NewWebDriver constructs a new web driver.
-func NewWebDriver(port int) (*ChromeWebDriver, error) {
+// NewChromeWebDriver returns a new LIVE web driver.
+func NewChromeWebDriver(port int) (*ChromeWebDriver, error) {
 	options := []selenium.ServiceOption{
 		selenium.StartFrameBuffer(),             // Start an X frame buffer for the browser to run in
 		selenium.ChromeDriver(ChromeDriverPath), // Specify the path to the chroem driver
@@ -43,15 +43,27 @@ func NewWebDriver(port int) (*ChromeWebDriver, error) {
 	chromeCaps.Path = ChromeBinPath
 	caps.AddChrome(chromeCaps)
 
+	// Create the web driver remote itself
+	webDriver, err := selenium.NewRemote(
+		caps, // The capabilities
+		fmt.Sprintf("http://localhost:%d/wd/hub", // The ip to listen on
+			port), // The port to listen on
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	// defer webDriver.Quit()
+
 	// Construct the ChromeWebDriver
 	newCWD := &ChromeWebDriver{
-		WebDriver: nil, // Init as nil b/c webdriver service has not been started yet
+		WebDriver: &webDriver, // The live webdriver itself
 
 		Options:      options, // The options declared earlier
 		Capabilities: caps,    // The capabilities declared earlier
 
-		Port:    port,  // The port of the instance
-		Running: false, // The instance is not currently running
+		Port:    port, // The port of the instance
+		Running: true, // The instance is currently running
 	}
 	return newCWD, nil
 
