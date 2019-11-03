@@ -11,8 +11,7 @@ import (
 
 // ChromeWebDriver is an abstraction class for a selenium chrome webdriver.
 type ChromeWebDriver struct {
-	// WebDriver *selenium.WebDriver `json:"web_driver"` // The web driver itself
-	WebDriver selenium.WebDriver `json:"web_driver"` // The web driver itself
+	WebDriver *selenium.WebDriver `json:"web_driver"` // The web driver itself
 
 	Options      []selenium.ServiceOption `json:"options"`      // The service configuration/options
 	Capabilities selenium.Capabilities    `json:"Capabilities"` // The capabilities (further browser configuration)
@@ -58,7 +57,7 @@ func NewChromeWebDriver(port int) (*ChromeWebDriver, error) {
 
 	// Construct the ChromeWebDriver
 	newCWD := &ChromeWebDriver{
-		WebDriver: webDriver, // The live webdriver itself
+		WebDriver: &webDriver, // The live webdriver itself
 
 		Options:      options, // The options declared earlier
 		Capabilities: caps,    // The capabilities declared earlier
@@ -84,7 +83,7 @@ func (cwd *ChromeWebDriver) Start() error {
 
 	// defer webDriver.Quit()
 
-	cwd.WebDriver = webDriver
+	cwd.WebDriver = &webDriver
 	cwd.Running = true
 
 	return nil
@@ -93,7 +92,7 @@ func (cwd *ChromeWebDriver) Start() error {
 // Stop stops the web driver service for a given ChromeWebDriver.
 func (cwd *ChromeWebDriver) Stop() error {
 	// Stop the webdriver
-	webDriver := cwd.WebDriver
+	webDriver := *cwd.WebDriver
 	webDriver.Quit()
 
 	// Delete the webdriver
