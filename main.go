@@ -10,36 +10,28 @@ import (
 	"github.com/tebeka/selenium/chrome"
 )
 
-// This example shows how to navigate to a http://play.golang.org page, input a
-// short program, run it, and inspect its output.
-//
-// If you want to actually run this example:
-//
-//   1. Ensure the file paths at the top of the function are correct.
-//   2. Remove the word "Example" from the comment at the bottom of the
-//      function.
-//   3. Run:
-//      go test -test.run=Example$ github.com/tebeka/selenium
+const (
+	// These paths will be different on your system.
+	seleniumPath = "vendor/selenium-server.jar"
+
+	chromeDriverPath = "vendor/chromedriver"
+	chromeBinPath    = "vendor/chrome-linux/chrome"
+
+	headless = true
+	port     = 8080
+)
+
+// Example does stuff.
 func Example() {
-	// Start a Selenium WebDriver server instance (if one is not already
-	// running).
-	const (
-		// These paths will be different on your system.
-		seleniumPath = "vendor/selenium-server.jar"
 
-		chromeDriverPath = "vendor/chromedriver"
-		chromeBinPath    = "vendor/chrome-linux/chrome"
-
-		headless = true
-		port     = 8080
-	)
-	opts := []selenium.ServiceOption{
+	serviceOptions := []selenium.ServiceOption{
 		selenium.StartFrameBuffer(),             // Start an X frame buffer for the browser to run in.
 		selenium.ChromeDriver(chromeDriverPath), // Specify the path to chromedriver in order to use Chrome.
 		selenium.Output(os.Stderr),              // Output debug information to STDERR.
 	}
+
 	selenium.SetDebug(true)
-	service, err := selenium.NewSeleniumService(seleniumPath, port, opts...)
+	service, err := selenium.NewSeleniumService(seleniumPath, port, serviceOptions...)
 	if err != nil {
 		panic(err) // panic is used only as an example and is not otherwise recommended.
 	}
@@ -50,7 +42,6 @@ func Example() {
 
 	var chromeCaps chrome.Capabilities
 	chromeCaps.Path = chromeBinPath
-	chromeCaps.Args = []string{"headless"}
 
 	caps.AddChrome(chromeCaps)
 
@@ -125,4 +116,3 @@ func Example() {
 func main() {
 	Example()
 }
-
