@@ -1,6 +1,7 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -59,7 +60,11 @@ func NewWebDriver(port int) (*ChromeWebDriver, error) {
 // Start starts the web driver service for a given ChromeWebDriver.
 func (cwd *ChromeWebDriver) Start() error {
 	// Create the web driver remote itself
-	webDriver, err := selenium.NewRemote((*cwd).Capabilities, fmt.Sprintf("http://localhost:%d/wd/hub", (*cwd).Port))
+	webDriver, err := selenium.NewRemote(
+		(*cwd).Capabilities, // The capabilities
+		fmt.Sprintf("http://localhost:%d/wd/hub", // The ip to listen on
+			(*cwd).Port), // The port to listen on
+	)
 	if err != nil {
 		return err
 	}
@@ -83,4 +88,10 @@ func (cwd *ChromeWebDriver) Stop() error {
 	cwd.Running = true
 
 	return nil
+}
+
+// String marshals a ChromeWebDriver.
+func (cwd *ChromeWebDriver) String() string {
+	json, _ := json.MarshalIndent(*cwd, "", "  ")
+	return string(json)
 }

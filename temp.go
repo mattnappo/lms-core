@@ -1,4 +1,4 @@
-package core
+package main
 
 // // Navigate to the simple playground interface.
 // if err := wd.Get("http://play.golang.org/?simple=1"); err != nil {
