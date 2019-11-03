@@ -10,6 +10,6 @@ const (
 	// ChromeBinPath is the path to the chrome binary.
 	ChromeBinPath = "vendor/chrome-linux/chrome"
 
-	// Debug determines whether to run selenium in debug mode
+	// DebugMode determines whether to run selenium in debug mode
 	DebugMode = true
 )

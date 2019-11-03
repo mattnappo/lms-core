@@ -64,7 +64,7 @@ func (cwd *ChromeWebDriver) Start() error {
 		return err
 	}
 
-	defer webDriver.Quit()
+	// defer webDriver.Quit()
 
 	cwd.WebDriver = &webDriver
 	cwd.Running = true
@@ -75,6 +75,10 @@ func (cwd *ChromeWebDriver) Start() error {
 // Stop stops the web driver service for a given ChromeWebDriver.
 func (cwd *ChromeWebDriver) Stop() error {
 	// Stop the webdriver
+	webDriver := *cwd.WebDriver
+	webDriver.Quit()
+
+	// Delete the webdriver
 	cwd.WebDriver = nil
 	cwd.Running = true
 
