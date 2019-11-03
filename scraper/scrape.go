@@ -16,7 +16,8 @@ func Scrape() error {
 		return err
 	}
 
-	driver := *cwd.WebDriver
+	// driver := *cwd.WebDriver
+	driver := cwd.WebDriver
 
 	err = driver.Get("http://play.golang.org/?simple=1")
 	if err != nil {
