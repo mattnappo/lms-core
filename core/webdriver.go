@@ -82,6 +82,7 @@ func (cwd *ChromeWebDriver) Start() error {
 	if err != nil {
 		return err
 	}
+
 	err = webDriver.Get("http://play.golang.org/?simple=1")
 	if err != nil {
 		return err

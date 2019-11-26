@@ -10,15 +10,10 @@ import (
 )
 
 // Scrape scrapes stuff using a core.ChromeWebDriver.
-func Scrape() error {
-	cwd, err := core.NewChromeWebDriver(8080)
-	if err != nil {
-		return err
-	}
-
+func Scrape(cwd core.ChromeWebDriver) error {
 	driver := *cwd.WebDriver
 
-	err = driver.Get("http://play.golang.org/?simple=1")
+	err := driver.Get("http://play.golang.org/?simple=1")
 	if err != nil {
 		return err
 	}
