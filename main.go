@@ -47,7 +47,10 @@ func mainExample(port int) error {
 		return err
 	}
 
-	scraper.Scrape(webDriver)
+	err = scraper.Scrape(webDriver)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
