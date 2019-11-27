@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/new-lms/lms-core/core"
 	"github.com/new-lms/lms-core/scraper"
 
 	"github.com/tebeka/selenium"
@@ -85,7 +86,7 @@ func otherExample(port int) error {
 
 	err = scraper.Scrape(&webDriver)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	return nil
@@ -102,7 +103,12 @@ func main() {
 	// 	panic(err)
 	// }
 
-	err := otherExample(8081)
+	// err := otherExample(8081)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	_, err := core.NewChromeWebDriver(8081)
 	if err != nil {
 		panic(err)
 	}

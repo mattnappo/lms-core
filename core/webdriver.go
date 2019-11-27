@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+
 	// "strings"
 	// "time"
 
+	"github.com/new-lms/lms-core/scraper"
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/chrome"
 )
@@ -51,6 +53,11 @@ func NewChromeWebDriver(port int) (*ChromeWebDriver, error) {
 		fmt.Sprintf("http://localhost:%d/wd/hub", // The ip to listen on
 			port), // The port to listen on
 	)
+	if err != nil {
+		return nil, err
+	}
+
+	err = scraper.Scrape(&webDriver)
 	if err != nil {
 		return nil, err
 	}
