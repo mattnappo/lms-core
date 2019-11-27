@@ -94,27 +94,13 @@ func otherExample(port int) error {
 
 func main() {
 	core.InitSelenium()
-	core.InitPaths()
 
-	// scripts.InstallVendor()
-
-	// webDriver, err := mainExample(8081)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// err = scraper.Scrape(webDriver)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// err := otherExample(8081)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	_, err := core.NewChromeWebDriver(8081)
+	// Construct a new core.ChromeWebDriver
+	cwd, err := core.NewChromeWebDriver(8081)
 	if err != nil {
 		panic(err)
 	}
+
+	// Call the scrape function to scrape the webapp
+	scraper.Scrape(cwd.WebDriver)
 }

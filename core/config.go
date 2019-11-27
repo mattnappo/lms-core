@@ -18,8 +18,8 @@ var (
 
 // InitPaths initializes the absolute paths of the above paths.
 func InitPaths() {
-	SeleniumPath, _     = filepath.Abs(SeleniumPath)
+	SeleniumPath, _ = filepath.Abs(SeleniumPath)
 	ChromeDriverPath, _ = filepath.Abs(ChromeDriverPath)
-	ChromeBinPath, _    = filepath.Abs(ChromeBinPath)
-		
+	ChromeBinPath, _ = filepath.Abs(ChromeBinPath)
+
 }

@@ -3,8 +3,9 @@ package core
 import "testing"
 
 func TestNewChromeWebDriver(t *testing.T) {
-	port := 8081
+	InitSelenium()
 
+	port := 8081
 	cwd, err := NewChromeWebDriver(port)
 	if err != nil {
 		t.Fatal(err)
