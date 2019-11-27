@@ -93,6 +93,11 @@ func otherExample(port int) error {
 }
 
 func main() {
+	core.InitSelenium()
+	core.InitPaths()
+
+	// scripts.InstallVendor()
+
 	// webDriver, err := mainExample(8081)
 	// if err != nil {
 	// 	panic(err)

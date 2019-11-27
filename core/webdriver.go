@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-
 	// "strings"
 	// "time"
 
@@ -26,6 +25,8 @@ type ChromeWebDriver struct {
 
 // NewChromeWebDriver returns a new LIVE web driver.
 func NewChromeWebDriver(port int) (*ChromeWebDriver, error) {
+	fmt.Printf("\n\nSeleniumPath: [%s]\nChromeDriverPath: [%s]\n\n", SeleniumPath, ChromeDriverPath)
+	
 	options := []selenium.ServiceOption{
 		selenium.StartFrameBuffer(),             // Start an X frame buffer for the browser to run in
 		selenium.ChromeDriver(ChromeDriverPath), // Specify the path to the chroem driver
@@ -57,12 +58,12 @@ func NewChromeWebDriver(port int) (*ChromeWebDriver, error) {
 		return nil, err
 	}
 
+	defer webDriver.Quit()
+
 	err = scraper.Scrape(&webDriver)
 	if err != nil {
 		return nil, err
 	}
-
-	// defer webDriver.Quit()
 
 	// Construct the ChromeWebDriver
 	newCWD := &ChromeWebDriver{

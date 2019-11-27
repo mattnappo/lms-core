@@ -1,6 +1,11 @@
 package core
 
-const (
+import "path/filepath"
+
+// DebugMode determines whether to run selenium in debug mode
+const DebugMode = true
+
+var (
 	// SeleniumPath is the path to the standalone Selenium server jar.
 	SeleniumPath = "vendor/selenium-server.jar"
 
@@ -9,7 +14,12 @@ const (
 
 	// ChromeBinPath is the path to the chrome binary.
 	ChromeBinPath = "vendor/chrome-linux/chrome"
-
-	// DebugMode determines whether to run selenium in debug mode
-	DebugMode = true
 )
+
+// InitPaths initializes the absolute paths of the above paths.
+func InitPaths() {
+	SeleniumPath, _     = filepath.Abs(SeleniumPath)
+	ChromeDriverPath, _ = filepath.Abs(ChromeDriverPath)
+	ChromeBinPath, _    = filepath.Abs(ChromeBinPath)
+		
+}

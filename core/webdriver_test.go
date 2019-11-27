@@ -3,7 +3,7 @@ package core
 import "testing"
 
 func TestNewChromeWebDriver(t *testing.T) {
-	port := 8080
+	port := 8081
 
 	cwd, err := NewChromeWebDriver(port)
 	if err != nil {
