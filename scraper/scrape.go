@@ -11,7 +11,6 @@ import (
 
 // Scrape scrapes stuff using a core.ChromeWebDriver.
 func Scrape(driver *selenium.WebDriver) error {
-
 	err := (*driver).Get("http://play.golang.org/?simple=1")
 	if err != nil {
 		return err
