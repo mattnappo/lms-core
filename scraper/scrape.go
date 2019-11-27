@@ -5,14 +5,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/new-lms/lms-core/core"
+	// "github.com/new-lms/lms-core/core"
 	"github.com/tebeka/selenium"
 )
 
 // Scrape scrapes stuff using a core.ChromeWebDriver.
-func Scrape(cwd core.ChromeWebDriver) error {
-	driver := *cwd.WebDriver
-
+func Scrape(driver selenium.WebDriver) error {
 	err := driver.Get("http://play.golang.org/?simple=1")
 	if err != nil {
 		return err
