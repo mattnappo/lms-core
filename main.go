@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/new-lms/lms-core/scraper"
-	"github.com/new-lms/lms-core/core"
 
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/chrome"
@@ -17,7 +16,7 @@ const (
 	ChromeBinPath    = "vendor/chrome-linux/chrome"
 )
 
-func mainExample(port int) error {
+func mainExample(port int) (*selenium.WebDriver, error) {
 	options := []selenium.ServiceOption{
 		selenium.StartFrameBuffer(),             // Start an X frame buffer for the browser to run in
 		selenium.ChromeDriver(ChromeDriverPath), // Specify the path to the chroem driver
@@ -27,7 +26,7 @@ func mainExample(port int) error {
 	// Initialize the selenium service
 	service, err := selenium.NewSeleniumService(SeleniumPath, port, options...)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer service.Stop()
 
@@ -46,39 +45,20 @@ func mainExample(port int) error {
 			port), // The port to listen on
 	)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	err = scraper.Scrape(&webDriver)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return &webDriver, nil
 }
 
 func main() {
-	// core.InitSelenium()
-
-	// cwd, err := core.NewChromeWebDriver(8081)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// err = scraper.Scrape(*cwd)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// mainExample(8001)
-	cwd, err := core.NewChromeWebDriver(8081)
+	webDriver, err := mainExample(8081)
 	if err != nil {
 		panic(err)
 	}
 
-	err = scraper.Scrape(cwd.WebDriver)
+	err = scraper.Scrape(webDriver)
 	if err != nil {
 		panic(err)
 	}
-
 }
