@@ -10,13 +10,14 @@ import (
 )
 
 // Scrape scrapes stuff using a core.ChromeWebDriver.
-func Scrape(driver selenium.WebDriver) error {
-	err := driver.Get("http://play.golang.org/?simple=1")
+func Scrape(driver *selenium.WebDriver) error {
+
+	err := (*driver).Get("http://play.golang.org/?simple=1")
 	if err != nil {
 		return err
 	}
 
-	elem, err := driver.FindElement(selenium.ByCSSSelector, "#code")
+	elem, err := (*driver).FindElement(selenium.ByCSSSelector, "#code")
 	if err != nil {
 		return err
 	}
@@ -39,7 +40,7 @@ func Scrape(driver selenium.WebDriver) error {
 	}
 
 	// Click the run button.
-	btn, err := driver.FindElement(selenium.ByCSSSelector, "#run")
+	btn, err := (*driver).FindElement(selenium.ByCSSSelector, "#run")
 	if err != nil {
 		return err
 	}
@@ -48,7 +49,7 @@ func Scrape(driver selenium.WebDriver) error {
 	}
 
 	// Wait for the program to finish running and get the output.
-	outputDiv, err := driver.FindElement(selenium.ByCSSSelector, "#output")
+	outputDiv, err := (*driver).FindElement(selenium.ByCSSSelector, "#output")
 	if err != nil {
 		return err
 	}

@@ -5,6 +5,8 @@ import (
 	"os"
 
 	"github.com/new-lms/lms-core/scraper"
+	"github.com/new-lms/lms-core/core"
+
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/chrome"
 )
@@ -47,7 +49,7 @@ func mainExample(port int) error {
 		return err
 	}
 
-	err = scraper.Scrape(webDriver)
+	err = scraper.Scrape(&webDriver)
 	if err != nil {
 		return err
 	}
@@ -68,5 +70,15 @@ func main() {
 	// 	panic(err)
 	// }
 
-	mainExample(8001)
+	// mainExample(8001)
+	cwd, err := core.NewChromeWebDriver(8081)
+	if err != nil {
+		panic(err)
+	}
+
+	err = scraper.Scrape(cwd.WebDriver)
+	if err != nil {
+		panic(err)
+	}
+
 }
