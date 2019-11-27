@@ -102,5 +102,8 @@ func main() {
 	}
 
 	// Call the scrape function to scrape the webapp
-	scraper.Scrape(cwd.WebDriver)
+	err = scraper.Scrape(cwd.WebDriver)
+	if err != nil {
+		panic(err)
+	}
 }
