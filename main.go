@@ -51,13 +51,58 @@ func mainExample(port int) (*selenium.WebDriver, error) {
 	return &webDriver, nil
 }
 
-func main() {
-	webDriver, err := mainExample(8081)
+func otherExample(port int) error {
+	options := []selenium.ServiceOption{
+		selenium.StartFrameBuffer(),             // Start an X frame buffer for the browser to run in
+		selenium.ChromeDriver(ChromeDriverPath), // Specify the path to the chroem driver
+		selenium.Output(os.Stderr),              // Output debug information to STDERR
+	}
+
+	// Initialize the selenium service
+	service, err := selenium.NewSeleniumService(SeleniumPath, port, options...)
+	if err != nil {
+		return err
+	}
+	defer service.Stop()
+
+	// Connect to the webdriver instance running locally.
+	caps := selenium.Capabilities{"browser": "chrome"}
+
+	// Declare the capabilities for chrome
+	var chromeCaps chrome.Capabilities
+	chromeCaps.Path = ChromeBinPath
+	caps.AddChrome(chromeCaps)
+
+	// Create the web driver remote itself
+	webDriver, err := selenium.NewRemote(
+		caps, // The capabilities
+		fmt.Sprintf("http://localhost:%d/wd/hub", // The ip to listen on
+			port), // The port to listen on
+	)
+	if err != nil {
+		return err
+	}
+
+	err = scraper.Scrape(&webDriver)
 	if err != nil {
 		panic(err)
 	}
 
-	err = scraper.Scrape(webDriver)
+	return nil
+}
+
+func main() {
+	// webDriver, err := mainExample(8081)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// err = scraper.Scrape(webDriver)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	err := otherExample(8081)
 	if err != nil {
 		panic(err)
 	}
