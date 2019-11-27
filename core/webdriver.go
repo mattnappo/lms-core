@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strings"
-	"time"
+	// "strings"
+	// "time"
 
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/chrome"
