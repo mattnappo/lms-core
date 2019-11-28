@@ -7,7 +7,7 @@ import (
 	// "strings"
 	// "time"
 
-	"github.com/new-lms/lms-core/scraper"
+	// "github.com/new-lms/lms-core/scraper"
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/chrome"
 )
@@ -34,11 +34,11 @@ func NewChromeWebDriver(port int) (*ChromeWebDriver, error) {
 	}
 
 	// Initialize the selenium service
-	service, err := selenium.NewSeleniumService(SeleniumPath, port, options...)
+	_, err := selenium.NewSeleniumService(SeleniumPath, port, options...)
 	if err != nil {
 		return nil, err
 	}
-	defer service.Stop()
+	// defer service.Stop()
 
 	// Connect to the webdriver instance running locally.
 	caps := selenium.Capabilities{"browser": "chrome"}
@@ -58,12 +58,14 @@ func NewChromeWebDriver(port int) (*ChromeWebDriver, error) {
 		return nil, err
 	}
 
-	defer webDriver.Quit()
+	fmt.Printf("I AM RETURNING THE CWD NOW\n\n\n")
 
-	err = scraper.Scrape(&webDriver)
-	if err != nil {
-		return nil, err
-	}
+	// defer webDriver.Quit()
+
+	//err = scraper.Scrape(&webDriver)
+	//if err != nil {
+	// 	 return nil, err
+	//}
 
 	// Construct the ChromeWebDriver
 	newCWD := &ChromeWebDriver{
